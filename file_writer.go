@@ -5,8 +5,35 @@ import (
 	"errors"
 	"log"
 	"os"
+	"os/signal"
 	"path"
+	"syscall"
 )
+
+var oldLevel int
+
+func signalHandle(fw *FileW) {
+	ch := make(chan os.Signal)
+
+	for {
+
+		signal.Notify(ch, syscall.SIGUSR2)
+
+		sig := <-ch
+
+		switch sig {
+		case syscall.SIGUSR2:
+			if fw.level == DEBUG {
+				fw.level = oldLevel
+			} else {
+				oldLevel = fw.level
+				fw.level = DEBUG
+			}
+			Info("filelog set to level:%d:%d", fw.level, oldLevel)
+		default:
+		}
+	}
+}
 
 type FileW struct {
 	name          string
@@ -108,5 +135,7 @@ func (w *FileW) Flush() error {
 }
 
 func init() {
-	addWriter(&FileW{name: "file"})
+	fw := &FileW{name: "file"}
+	addWriter(fw)
+	go signalHandle(fw)
 }

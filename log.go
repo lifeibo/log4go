@@ -161,7 +161,7 @@ func (l *Logger) formatRecordToTunnel(level int, format string, args ...interfac
 	l.tunnel <- r
 }
 
-// flush, send exit signal to writer goroutine, then handle all buffered records. 
+// flush, send exit signal to writer goroutine, then handle all buffered records.
 func (l *Logger) flush() {
 	l.exit <- true
 	for {

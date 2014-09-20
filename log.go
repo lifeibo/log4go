@@ -24,11 +24,14 @@ type Record struct {
 	time  string
 	code  string
 	info  string
+	gid    int32
 	level int
 }
 
+func GetGoId() int32
+
 func (r *Record) String() string {
-	return fmt.Sprintf("%s [%s] %s %s\n", r.time, LEVEL_FLAGS[r.level], r.code, r.info)
+	return fmt.Sprintf("%s [%s] #%d %s %s\n", r.time, LEVEL_FLAGS[r.level], r.gid, r.code, r.info)
 }
 
 type Writer interface {
@@ -155,6 +158,7 @@ func (l *Logger) formatRecordToTunnel(level int, format string, args ...interfac
 		info:  inf,
 		code:  code,
 		time:  l.lastLogTimeStr,
+        gid:   GetGoId(),
 		level: level,
 	}
 

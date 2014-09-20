@@ -24,11 +24,11 @@ type Record struct {
 	time  string
 	code  string
 	info  string
-	gid    int32
+	gid    int64
 	level int
 }
 
-func GetGoId() int32
+func GetGoId() int64
 
 func (r *Record) String() string {
 	return fmt.Sprintf("%s [%s] #%d %s %s\n", r.time, LEVEL_FLAGS[r.level], r.gid, r.code, r.info)

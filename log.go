@@ -3,6 +3,7 @@ package log4go
 import (
 	"fmt"
 	"log"
+	"os"
 	"runtime"
 	"strconv"
 	"time"
@@ -20,6 +21,8 @@ const (
 
 const tunnel_size_default = 1024
 
+var pid = os.Getpid()
+
 type Record struct {
 	time  string
 	code  string
@@ -31,7 +34,7 @@ type Record struct {
 func GetGoId() int64
 
 func (r *Record) String() string {
-	return fmt.Sprintf("%s [%s] #%d %s %s\n", r.time, LEVEL_FLAGS[r.level], r.gid, r.code, r.info)
+	return fmt.Sprintf("%s [%s] #%d.%d %s %s\n", r.time, LEVEL_FLAGS[r.level], pid, r.gid, r.code, r.info)
 }
 
 type Writer interface {

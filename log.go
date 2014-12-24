@@ -237,3 +237,11 @@ func LogMap() {
 func init() {
 
 }
+
+func LogEnter() {
+	logger_default.formatRecordToTunnel(DEBUG, "[ENTER]")
+}
+
+func LogLeave() {
+	logger_default.formatRecordToTunnel(DEBUG, "[LEAVE]")
+}
